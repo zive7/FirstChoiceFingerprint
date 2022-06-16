@@ -1,0 +1,37 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.BookNow>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Forms.Web;
+@{
+    Layout = "Master.cshtml";
+}
+
+@section MetaData
+{
+    <title>@Model.Value("seoTitle")</title>
+    <meta name="description" content="@Model.Value("seoDescription")">
+    @{
+        string[] tagsList = (string[])Model.Value("seoKeywords");
+
+        if (tagsList.Count() > 0)
+        {
+            <meta name="keywords" content="@string.Join(",", tagsList)">
+        }
+    }
+}
+
+<section id="main" class="wrapper">
+    @Html.RenderUmbracoFormDependencies()
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>@Model.Value("bookNowTitle")</h3>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                @Model.Value("bookNowFormLayout")
+            </div>
+        </div>
+    </div>
+</section>

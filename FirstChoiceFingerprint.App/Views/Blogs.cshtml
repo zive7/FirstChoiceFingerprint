@@ -1,0 +1,70 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Blogs>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models;
+@{
+    Layout = "Master.cshtml";
+}
+
+@section MetaData
+{
+    <title>@Model.Value("seoTitle")</title>
+    <meta name="description" content="@Model.Value("seoDescription")">
+    @{
+        string[] tagsList = (string[])Model.Value("seoKeywords");
+
+        if (tagsList.Count() > 0)
+        {
+            <meta name="keywords" content="@string.Join(",", tagsList)">
+        }
+    }
+}
+
+<div class="container layout_padding">
+    <div class="custom_heading-container">
+        <h2>
+            @Model.Value("blogsSubTitle")
+        </h2>
+        <hr>
+    </div>
+    <p>
+        @Model.Value("blogsDescription")
+    </p>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 layout_padding2-top">
+        @{
+            var totalBlogs =
+                    Umbraco.Content(Guid.Parse("c25da384-2838-408c-adf8-c05a05ae8656"))
+                    .ChildrenOfType("blogItem")
+                    .Count(x => x.IsVisible());
+            var skip = 0;
+            var take = 1;
+
+            var selection =
+                    Umbraco.Content(Guid.Parse("c25da384-2838-408c-adf8-c05a05ae8656"))
+                    .ChildrenOfType("blogItem")
+                    .Where(x => x.IsVisible())
+                    .OrderByDescending(x => x.CreateDate);
+        }
+        @foreach (var item in selection)
+        {
+            <div class="col mb-4">
+                <div class="card shadow p-3 bg-white rounded">
+                    <a href="@item.Url()" style="color: inherit; text-decoration: none;">
+                        @{
+                            var itemMediaPirker = item.Value<MediaWithCrops>("blogItemImg");
+                            if (itemMediaPirker != null)
+                            {
+                                <img class="card-img-top" src="@itemMediaPirker.MediaUrl()" alt="@item.Name()">
+                            }
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.Truncate(@item.Name().Trim(), 35, true)</h5>
+                            <p class="card-text">@Html.Truncate(item.Value("blogItemDisplayBodyText").ToString().Trim(), 200, true)</p>
+                            <p class="card-text"><small class="text-muted">Created on: @item.CreateDate.ToString("MM/dd/yyyy")</small></p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

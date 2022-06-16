@@ -1,0 +1,26 @@
+﻿<div class="umb-editor umb-datepicker" ng-controller="Spideyweb.Umbraco.SimpleTimePicker.Controller">
+    <ng-form name="datePickerForm">
+        <div class="input-append date datepicker" style="position: relative;" id="datepicker{{model.alias}}">
+
+            <input name="datepicker" data-format="{{model.config.format}}" id="{{model.alias}}" type="text"
+                   ng-model="datetimePickerValue"
+                   ng-required="model.validation.mandatory"
+                   val-server="value"
+                   class="datepickerinput" />
+
+            <span class="add-on">
+                <i class="icon-time"></i>
+            </span>
+
+        </div>
+
+        <span class="help-inline" val-msg-for="datepicker" val-toggle-msg="required"><localize key="general_required">Required</localize></span>
+        <span class="help-inline" val-msg-for="datepicker" val-toggle-msg="valServer">{{datePickerForm.datepicker.errorMsg}}</span>
+        <span class="help-inline" val-msg-for="datepicker" val-toggle-msg="pickerError">Invalid time</span>
+
+        <p ng-show="hasDatetimePickerValue === true || datePickerForm.datepicker.$error.pickerError === true">
+            <a href ng-click="clearDate()"><i class="icon-delete"></i><small>Clear time</small></a>
+        </p>
+
+    </ng-form>
+</div>

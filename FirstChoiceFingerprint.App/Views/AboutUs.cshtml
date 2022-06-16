@@ -1,0 +1,82 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.AboutUs>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models;
+@{
+    Layout = "Master.cshtml";
+}
+
+@section MetaData
+{
+    <title>@Model.Value("seoTitle")</title>
+    <meta name="description" content="@Model.Value("seoDescription")">
+    @{
+        string[] tagsList = (string[])Model.Value("seoKeywords");
+
+        if (tagsList.Count() > 0)
+        {
+            <meta name="keywords" content="@string.Join(",", tagsList)">
+        }
+    }
+}
+
+<!DOCTYPE HTML>
+
+<section class="contact_section layout_padding-top-15">
+    <div class="container">
+        <div class="d-flex flex-column align-items-start">
+            <div class="custom_heading-container">
+                <h2>
+                    @Model.Value("aboutUsTitle")
+                </h2>
+                <hr>
+            </div>
+        </div>
+        <div class="layout_padding-top-15 layout_padding2-bottom">
+            <div class="row">
+                <div class="col-md-7">
+                    <div>
+                        @Model.Value("aboutUsSectionOneBodyText")
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="map-box">
+                        <div id="map">
+                            <div class="map-responsive">
+                                <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&q=6480+E+Main+St,+Reynoldsburg,+OH+43068,+USA"
+                                        width="600" height="280" frameborder="0" style="border:0; width: 100%;" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>
+                        @Model.Value("aboutUsSectionTwoTitle")
+                    </h2>
+                    <p>
+                        @Model.Value("aboutUsSectionTwoDescription")
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>
+                        @Model.Value("aboutUsSectionTwoTitle")
+                    </h2>
+                    <p>
+                        @Model.Value("aboutUsSectionThreeDescription")
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>
+                        @Model.Value("aboutUsFooterSectionDescription")
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

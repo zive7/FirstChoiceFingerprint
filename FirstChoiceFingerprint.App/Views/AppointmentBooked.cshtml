@@ -1,0 +1,37 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.AppointmentBooked>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+    Layout = "Master.cshtml";
+}
+
+@section MetaData
+{
+    <title>@Model.Value("seoTitle")</title>
+    <meta name="description" content="@Model.Value("seoDescription")">
+    @{
+        string[] tagsList = (string[])Model.Value("seoKeywords");
+
+        if (tagsList.Count() > 0)
+        {
+            <meta name="keywords" content="@string.Join(",", tagsList)">
+        }
+    }
+}
+
+<!DOCTYPE HTML>
+
+<div class="container layout_padding layout_margin-top-90 layout_margin-bottom-180">
+    <div class="row">
+        <div class="col-md-12" style="text-align: center;">
+            <h1>@Model.Value("appointmentBookedTitle")</h1>
+            <h6>@Model.Value("appointmentBookedSubTitle")</h6>
+            <br />
+        </div>
+    </div>
+    <div class="row appointment_booked_section">
+        <div class="col-md-12" style="text-align: center; margin: 5px;">
+            <a id="back-to-home-link" href="/">Take me to home page</a>
+        </div>
+    </div>
+</div>

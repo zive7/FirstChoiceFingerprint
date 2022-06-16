@@ -1,0 +1,153 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.BlogItem>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models;
+@{
+    Layout = "Master.cshtml";
+}
+
+
+@section MetaData
+{
+    <title>@Model.Value("seoTitle")</title>
+    <meta name="description" content="@Model.Value("seoDescription")">
+    @{
+        string[] tagsList = (string[])Model.Value("seoKeywords");
+
+        if (tagsList.Count() > 0)
+        {
+            <meta name="keywords" content="@string.Join(",", tagsList)">
+        }
+    }
+}
+
+@{
+    var selection =
+            Umbraco.Content(Guid.Parse("c25da384-2838-408c-adf8-c05a05ae8656"))
+            .ChildrenOfType("blogItem")
+            .Where(x => x.IsVisible())
+            .OrderByDescending(x => x.CreateDate).Take(4);
+}
+
+<!DOCTYPE HTML>
+<div class="blog-single gray-bg">
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col-lg-8 m-15px-tb">
+                <article class="article">
+                    <div class="article-img">
+                        @{
+                            var blogItemMediaPirker = Model.Value<MediaWithCrops>("blogItemImg");
+                            if (blogItemMediaPirker != null)
+                            {
+                                <img src="@blogItemMediaPirker.MediaUrl()" alt="@Model.Value("blogItemTitle")" style="display: block; margin-left:auto; margin-right: auto; width: 100%;">
+                            }
+                        }
+                    </div>
+                    <div class="article-title">
+                        <h2>@Model.Value("blogItemTitle")</h2>
+                    </div>
+                    <div class="article-content">
+                        <p>@Model.Value("blogItemSectionOneBodyText")</p>
+
+                        <h4>@Model.Value("blogItemSectionTwoTitle")</h4>
+                        <p>@Model.Value("blogItemSectionTwoDescription")</p>
+
+                        <h4>@Model.Value("blogItemSectionThreeTitle")</h4>
+                        <p>@Model.Value("blogItemSectionThreeDescription")</p>
+
+                        <p>@Model.Value("blogItemFooterSectionDescription")</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-lg-4 m-15px-tb blog-aside">
+                <!-- Author -->
+                <div class="widget widget-author">
+                    <div class="widget-title">
+                        <h3>Author</h3>
+                    </div>
+                    <div class="widget-body">
+                        <div class="media align-items-center">
+                            <img src="/images/black_logo.png" title="" alt="">
+                        </div>
+                        <p>
+                            1st Choice Fingerprinting offers a quick, easy and secure way to perform Ohio BCI background checks and National WebCheck using electronic fingerprinting. <br /> <br />
+                            Save time and money and get your records in 24-48 hours. It all starts by booking your appointment with us online for Ohio BCI background check and National WebCheck services.
+                        </p>
+                    </div>
+                </div>
+                <!-- End Author -->
+                <!-- Trending Post -->
+                <div class="widget widget-post">
+                    <div class="widget-title">
+                        <h3>Trending Now</h3>
+                    </div>
+                    <div class="widget-body">
+                        @foreach (var item in selection.Take(1))
+                        {
+                            <div class="latest-post-aside media">
+                                <div class="lpa-left media-body">
+                                    <div class="lpa-title">
+                                        <h5><a href="@item.Url()">@item.Name().Trim()</a></h5>
+                                    </div>
+                                    <div class="lpa-meta">
+                                        <a class="date" href="@item.Url()">
+                                            @item.CreateDate.ToString("MM/dd/yyyy")
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="lpa-right">
+                                    <a href="@item.Url()">
+                                        @{
+                                            var itemMediaPirker = item.Value<MediaWithCrops>("blogItemImg");
+                                            if (itemMediaPirker != null)
+                                            {
+                                                <img src="@itemMediaPirker.MediaUrl()" alt="@item.Name()">
+                                            }
+                                        }
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- End Trending Post -->
+                <!-- Latest Post -->
+                <div class="widget widget-latest-post">
+                    <div class="widget-title">
+                        <h3>Latest Post</h3>
+                    </div>
+                    <div class="widget-body">
+                        @foreach (var item in selection.Skip(1).Take(3))
+                        {
+                            <div class="latest-post-aside media">
+                                <div class="lpa-left media-body">
+                                    <div class="lpa-title">
+                                        <h5><a href="@item.Url()">@item.Name().Trim()</a></h5>
+                                    </div>
+                                    <div class="lpa-meta">
+                                        <a class="date" href="@item.Url()">
+                                            @item.CreateDate.ToString("MM/dd/yyyy")
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="lpa-right">
+                                    <a href="@item.Url()">
+                                        @{
+                                            var itemMediaPirker = item.Value<MediaWithCrops>("blogItemImg");
+                                            if (itemMediaPirker != null)
+                                            {
+                                                <img src="@itemMediaPirker.MediaUrl()" alt="@item.Name()">
+                                            }
+                                        }
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- End Latest Post -->
+            </div>
+        </div>
+    </div>
+</div>
